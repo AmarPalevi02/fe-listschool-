@@ -1,28 +1,11 @@
-import { useEffect, useState } from "react"
-import { getApi } from "./utils/fetch"
-import { Button } from "./components/ui/button"
+import Seceduls from "@/pages/Seceduls"
 
 function App() {
-  const [days, setDays] = useState([])
-
-  const fetchDay = async() => {
-    const getDay = await getApi('/day')
-
-    setDays(getDay)
-
-    console.log(days)
-  }
-
-  useEffect(() => {
-      fetchDay()
-  }, [])
-
-  console.log(days)
 
   return (
-    <>
-      <Button variant={"destructive"}>Check</Button>
-    </>
+    <div className="w-[100%] h-[100vh] bg-gray-500">
+      <Seceduls />
+    </div>
   )
 }
 
