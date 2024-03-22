@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import { postData, getData, postData } from "@/utils/fetch"
+import { postData, getData } from "@/utils/fetch"
 
 const Seceduls = () => {
    const [days, setDays] = useState([])
@@ -45,9 +45,9 @@ const Seceduls = () => {
          nameMatkul: matkul.nameMatkul,
          dayId: id
       }
-
       await postData('/matkul/create', body)
    }
+
 
 
    return (
