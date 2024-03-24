@@ -5,22 +5,17 @@ import { postData, getData } from "@/utils/fetch"
 
 const Seceduls = () => {
    const [days, setDays] = useState([])
-
    const [valueDays, setValueDays] = useState({
       day: ""
    })
-
-   const [matkul, setMatkul] = useState({
-      nameMatkul: "",
-      dayId: null
-   })
+   const [nameMatkul, setNameMatkul] = useState({})
 
    const handleChange = (e) => {
       setValueDays({ ...valueDays, [e.taget.name]: e.target.value })
    }
 
-   const handleChangeMatkul = (e) => {
-      setMatkul({ ...matkul, [e.taget.name]: e.target.value })
+   const clear = (id) => {
+      setNameMatkul({ ...nameMatkul, [id]: '' })
    }
 
    const handleDays = async () => {
@@ -32,23 +27,32 @@ const Seceduls = () => {
       const response = await getData('/day')
 
       setDays(response.data)
+      setNameMatkul("")
    }
-
-
 
    useState(() => {
       handleGetDays()
    }, [])
 
-   const handeleOnkey = async (id) => {
-      const body = {
-         nameMatkul: matkul.nameMatkul,
-         dayId: id
+   const debounce = (func, delay) => {
+      let timeoutId;
+      return (...args) => {
+         clearTimeout(timeoutId);
+         timeoutId = setTimeout(() => {
+            func.apply(null, args);
+         }, delay);
+      };
+   };
+
+   const handeleOnkey = debounce((e, id) => {
+      const payload = { nameMatkul: nameMatkul[id], dayId: id }
+      if (e.keyCode === 13) {
+         postData('/matkul/create', payload).then(() => {
+            clear()
+            handleGetDays();
+         });
       }
-      await postData('/matkul/create', body)
-   }
-
-
+   }, 500);
 
    return (
       <div>
@@ -67,11 +71,12 @@ const Seceduls = () => {
                            <p>{day.day}</p>
                            <Input
                               type={'text'}
-                              name="nameMatkul"
-                              value={matkul.nameMatkul}
+                              name={"nameMatkul"}
+                              value={nameMatkul[day.id] || ''}
+                              autoFocus
                               placeholder={"Masukan Matkul"}
-                              onFocus={() => handeleOnkey(day.id)}
-                              onChange={handleChangeMatkul}
+                              onChange={(e) => setNameMatkul({ ...nameMatkul, [day.id]: e.target.value })}
+                              onKeyUp={(e) => handeleOnkey(e, day.id)}
                            />
                            {day.Matkuls.map((scedul) => {
                               return (
