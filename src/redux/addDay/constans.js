@@ -1,0 +1,3 @@
+export const START_FETCHING_DAYS = 'redux/day/START_FETCHING_DAYS'
+export const SUCCESS_FETCHING_DAYS = 'redux/day/SUCCESS_FETCHING_DAYS'
+export const ERROR_FETCHING_DAYS = 'redux/day/ERROR_FETCHING_DAYS'

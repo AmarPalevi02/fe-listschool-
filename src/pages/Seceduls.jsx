@@ -1,14 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { postData, getData } from "@/utils/fetch"
 
 const Seceduls = () => {
    const [days, setDays] = useState([])
-   const [valueDays, setValueDays] = useState({
-      day: ""
-   })
+   const [valueDays, setValueDays] = useState({ day: "" })
    const [nameMatkul, setNameMatkul] = useState({})
+   const [description, setDescription] = useState({})
 
    const handleChange = (e) => {
       setValueDays({ ...valueDays, [e.taget.name]: e.target.value })
@@ -28,9 +27,10 @@ const Seceduls = () => {
 
       setDays(response.data)
       setNameMatkul("")
+      setDescription("")
    }
 
-   useState(() => {
+   useEffect(() => {
       handleGetDays()
    }, [])
 
@@ -45,7 +45,7 @@ const Seceduls = () => {
    };
 
    const handeleOnkey = debounce((e, id) => {
-      const payload = { nameMatkul: nameMatkul[id], dayId: id }
+      const payload = { nameMatkul: nameMatkul[id], description: description[id], dayId: id }
       if (e.keyCode === 13) {
          postData('/matkul/create', payload).then(() => {
             clear()
@@ -76,6 +76,15 @@ const Seceduls = () => {
                               autoFocus
                               placeholder={"Masukan Matkul"}
                               onChange={(e) => setNameMatkul({ ...nameMatkul, [day.id]: e.target.value })}
+                              onKeyUp={(e) => handeleOnkey(e, day.id)}
+                           />
+                           <Input
+                              type={'text'}
+                              name={"description"}
+                              value={description[day.id] || ''}
+                              autoFocus
+                              placeholder={"Masukan deskripsi"}
+                              onChange={(e) => setDescription({ ...description, [day.id]: e.target.value })}
                               onKeyUp={(e) => handeleOnkey(e, day.id)}
                            />
                            {day.Matkuls.map((scedul) => {

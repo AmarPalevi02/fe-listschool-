@@ -1,10 +1,10 @@
-import Seceduls from "@/pages/Seceduls"
+import Layout from "./pages/Layout"
 
 function App() {
 
   return (
     <div className="w-[100%] h-[100vh] bg-gray-500">
-      <Seceduls />
+      <Layout />
     </div>
   )
 }
