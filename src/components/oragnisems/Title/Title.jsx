@@ -1,6 +1,6 @@
 const Title = () => {
    return (
-      <div>schedule keeper</div>
+      <div className="text-xl text-center font-bold">Schedule Keeper</div>
    )
 }
 

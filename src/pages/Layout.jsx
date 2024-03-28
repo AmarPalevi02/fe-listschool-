@@ -3,7 +3,7 @@ import Seceduls from "./Seceduls"
 
 const Layout = () => {
    return (
-      <div>
+      <div className="px-5">
          <Title />
          <Seceduls />
       </div>

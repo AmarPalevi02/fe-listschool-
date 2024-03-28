@@ -2,12 +2,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react"
 import { postData, getData } from "@/utils/fetch"
+import { useToast } from "@/components/ui/use-toast"
 
 const Seceduls = () => {
    const [days, setDays] = useState([])
    const [valueDays, setValueDays] = useState({ day: "" })
    const [nameMatkul, setNameMatkul] = useState({})
    const [description, setDescription] = useState({})
+   const { toast } = useToast()
 
    const handleChange = (e) => {
       setValueDays({ ...valueDays, [e.taget.name]: e.target.value })
@@ -50,6 +52,10 @@ const Seceduls = () => {
          postData('/matkul/create', payload).then(() => {
             clear()
             handleGetDays();
+            toast({
+               titl: 'Success',
+               description: `berhasil menambahkan ${payload.nameMatkul}`
+            })
          });
       }
    }, 500);
@@ -87,6 +93,7 @@ const Seceduls = () => {
                               onChange={(e) => setDescription({ ...description, [day.id]: e.target.value })}
                               onKeyUp={(e) => handeleOnkey(e, day.id)}
                            />
+
                            {day.Matkuls.map((scedul) => {
                               return (
                                  <div key={scedul.id}>
